@@ -35,14 +35,34 @@ Install dependencies with:
 pip install -r requirements.txt
 ```
 
+
 ## Usage
 1. **Data Cleaning & EDA**: Run `notebooks/clean-and-eda.ipynb` to clean and explore the dataset. This generates the cleaned CSV.
 2. **Model Training**: Run `notebooks/model-training.ipynb` to train models and export the scaler/model as `.pkl` files.
-3. **Web App**: Start the Flask app:
+3. **Web App (Local)**: Start the Flask app:
    ```bash
    python application.py
    ```
    Open your browser at `http://localhost:5000` and enter feature values to predict FWI.
+
+## Deployment: AWS Elastic Beanstalk
+This project is ready for deployment on AWS Elastic Beanstalk as a Python web application.
+
+### Steps:
+1. Ensure your project root contains:
+   - `application.py` (Flask entry point)
+   - `requirements.txt`
+   - `.ebextensions/python.config` (for WSGIPath configuration)
+2. The `.ebextensions/python.config` file sets the WSGI entry point:
+   ```yaml
+   option_settings:
+     "aws:elasticbeanstalk:container:python":
+       WSGIPath: application:application
+   ```
+3. Zip your project files and deploy via the AWS Elastic Beanstalk console or CLI.
+4. Elastic Beanstalk will use `application.py` and the `application` Flask object as the WSGI entry point.
+
+For more details, see the [AWS Elastic Beanstalk Python documentation](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-flask.html).
 
 ## Project Structure
 ```

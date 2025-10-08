@@ -1,24 +1,110 @@
-<html>
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>FWI Prediction</title>
+        <style>
+            :root{ --accent:#d9534f; --muted:#666; --card:#fff; --bg:#f4f6f8 }
+            body{ font-family:Segoe UI, Roboto, Arial, sans-serif; margin:0; background:var(--bg); color:#222 }
+            .container{ max-width:880px; margin:32px auto; padding:20px }
+            header{ display:flex; align-items:center; justify-content:space-between; gap:12px }
+            .brand{ display:flex; align-items:center; gap:12px }
+            .logo{ width:44px; height:44px; background:var(--accent); border-radius:8px; display:inline-block }
+            nav a{ text-decoration:none; color:var(--accent); font-weight:600; margin-left:12px }
+            .card{ background:var(--card); border-radius:10px; padding:20px; box-shadow:0 6px 18px rgba(20,30,50,0.08) }
+            form{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px }
+            label{ font-size:13px; color:var(--muted) }
+            input[type=text], input[type=number], select{ padding:10px 12px; border-radius:8px; border:1px solid #e3e6ea; width:100%; box-sizing:border-box }
+            .full{ grid-column:1/-1 }
+            .actions{ display:flex; gap:12px; align-items:center; margin-top:8px }
+            button.primary{ background:var(--accent); color:white; padding:10px 16px; border-radius:8px; border:0; cursor:pointer }
+            button.ghost{ background:transparent; border:1px solid #ddd; padding:8px 12px; border-radius:8px; cursor:pointer }
+            .result{ margin-top:16px; font-size:18px }
+            @media (max-width:640px){ form{ grid-template-columns:1fr } }
+        </style>
+    </head>
     <body>
-        <div class="login">
-            <h1>FWI Prediction</h1>
+        <div class="container">
+            <header>
+                <div class="brand">
+                    <span class="logo" aria-hidden="true"></span>
+                    <div>
+                        <h1 style="margin:0; font-size:18px">FWI Prediction</h1>
+                        <div style="font-size:12px; color:var(--muted)">Algerian Forest Fire Predictor</div>
+                    </div>
+                </div>
+                <nav>
+                    <!-- Button that goes to the index page -->
+                    <a href="{{ url_for('index') }}">Index</a>
+                </nav>
+            </header>
 
-            <form action="{{ url_for('predict_datapoint')}}" method="post">
-                <input type="text" name="Temperature" placeholder="Temperature" required> <br>
-                <input type="text" name="RH" placeholder="RH" required> <br>
-                <input type="text" name="Ws" placeholder="Ws" required> <br>
-                <input type="text" name="Rain" placeholder="Rain" required> <br>
-                <input type="text" name="FFMC" placeholder="FFMC" required> <br>
-                <input type="text" name="DMC" placeholder="DMC" required> <br>
-                <input type="text" name="ISI" placeholder="ISI" required> <br>
-                <input type="text" name="Classes" placeholder="Classes" required> <br>
-                <input type="text" name="Region" placeholder="Region" required> <br>
-                <button type="submit" class="btn btn-primary btn-block btn-large"> Predict FWI </button>
-            </form>
+            <main style="margin-top:18px">
+                <div class="card">
+                    <h2 style="margin-top:0">Predict Fire Weather Index (FWI)</h2>
 
-            <h2>
-                The FWI prediction is {{ results }}
-            </h2>
+                    <form action="{{ url_for('predict_datapoint') }}" method="post">
+                        <div>
+                            <label for="Temperature">Temperature (°C)</label>
+                            <input id="Temperature" name="Temperature" type="text" inputmode="decimal" placeholder="e.g. 22.5" required>
+                        </div>
+
+                        <div>
+                            <label for="RH">Relative Humidity (%)</label>
+                            <input id="RH" name="RH" type="text" inputmode="decimal" placeholder="e.g. 35" required>
+                        </div>
+
+                        <div>
+                            <label for="Ws">Wind speed (m/s)</label>
+                            <input id="Ws" name="Ws" type="text" inputmode="decimal" placeholder="e.g. 3.4" required>
+                        </div>
+
+                        <div>
+                            <label for="Rain">Rain (mm)</label>
+                            <input id="Rain" name="Rain" type="text" inputmode="decimal" placeholder="e.g. 0" required>
+                        </div>
+
+                        <div>
+                            <label for="FFMC">FFMC</label>
+                            <input id="FFMC" name="FFMC" type="text" inputmode="decimal" placeholder="e.g. 85" required>
+                        </div>
+
+                        <div>
+                            <label for="DMC">DMC</label>
+                            <input id="DMC" name="DMC" type="text" inputmode="decimal" placeholder="e.g. 100" required>
+                        </div>
+
+                        <div>
+                            <label for="ISI">ISI</label>
+                            <input id="ISI" name="ISI" type="text" inputmode="decimal" placeholder="e.g. 10" required>
+                        </div>
+
+                        <div>
+                            <label for="Classes">Classes</label>
+                            <input id="Classes" name="Classes" type="text" placeholder="e.g. small/large" required>
+                        </div>
+
+                        <div>
+                            <label for="Region">Region</label>
+                            <input id="Region" name="Region" type="text" placeholder="e.g. Bejaia" required>
+                        </div>
+
+                        <div class="full actions">
+                            <button type="submit" class="primary">Predict FWI</button>
+                            <a href="{{ url_for('index') }}"><button type="button" class="ghost">Go to Index</button></a>
+                        </div>
+                    </form>
+
+                    <div class="result">
+                        {% if results is not none %}
+                            <strong>Prediction:</strong> {{ results }}
+                        {% else %}
+                            <span style="color:var(--muted)">No prediction yet. Enter values and click Predict.</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </main>
         </div>
     </body>
 </html>

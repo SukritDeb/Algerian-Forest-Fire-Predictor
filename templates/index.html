@@ -1,1 +1,44 @@
-<h1> Welcome to Fire Prediction App </h1>
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Fire Prediction - Home</title>
+		<style>
+			body{ font-family:Segoe UI, Roboto, Arial, sans-serif; background:#f4f6f8; color:#222; margin:0 }
+			.wrap{ max-width:900px; margin:48px auto; padding:20px }
+			.card{ background:#fff; padding:28px; border-radius:12px; box-shadow:0 8px 24px rgba(20,30,50,0.06) }
+			.cta{ display:flex; gap:12px; margin-top:18px }
+			a.button{ text-decoration:none; display:inline-block; background:#d9534f; color:#fff; padding:10px 16px; border-radius:8px }
+			a.ghost{ background:transparent; border:1px solid #ddd; color:#333; padding:8px 12px; border-radius:8px }
+			header{ display:flex; align-items:center; justify-content:space-between }
+			.logo{ width:40px; height:40px; background:#d9534f; border-radius:8px }
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="card">
+				<header>
+					<div style="display:flex; gap:12px; align-items:center">
+						<div class="logo" aria-hidden="true"></div>
+						<div>
+							<h1 style="margin:0">Fire Prediction App</h1>
+							<div style="font-size:13px; color:#666">Predict Fire Weather Index using the trained model</div>
+						</div>
+					</div>
+					<nav>
+						<a class="ghost" href="{{ url_for('index') }}">Index</a>
+					</nav>
+				</header>
+
+				<section style="margin-top:18px">
+					<p>Welcome — use the app to submit weather and fuel variables and get an estimated Fire Weather Index (FWI).</p>
+					<div class="cta">
+						<a class="button" href="{{ url_for('predict_datapoint') }}">Go to Prediction</a>
+						<a class="ghost" href="{{ url_for('index') }}">Learn more</a>
+					</div>
+				</section>
+			</div>
+		</div>
+	</body>
+</html>
